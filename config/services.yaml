@@ -26,3 +26,10 @@ services:
         arguments:
             $urlRepository: '@App\Repository\UrlRepository'
 
+    App\Service\DataGardenService:
+        arguments:
+            $datagardenApiLogin: '%env(DATAGARDEN_API_LOGIN)%'
+            $datagardenApiPassword: '%env(DATAGARDEN_API_PASSWORD)%'
+            $datagardenApiIdSite: '%env(DATAGARDEN_API_ID_SITE)%'
+            $datagardenApiUrl: '%env(DATAGARDEN_API_URL)%'
+
