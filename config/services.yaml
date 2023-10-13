@@ -32,4 +32,3 @@ services:
             $datagardenApiPassword: '%env(DATAGARDEN_API_PASSWORD)%'
             $datagardenApiIdSite: '%env(DATAGARDEN_API_ID_SITE)%'
             $datagardenApiUrl: '%env(DATAGARDEN_API_URL)%'
-

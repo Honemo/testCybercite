@@ -21,6 +21,13 @@ class UrlRepository extends ServiceEntityRepository
         parent::__construct($registry, Url::class);
     }
 
+    /**
+     * Ajoute l'entitée $entity à la bdd
+     *
+     * @param Url $entity
+     * @param boolean $flush
+     * @return void
+     */
     public function add(Url $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -30,6 +37,13 @@ class UrlRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Supprime l'entitée $entity de la bdd
+     *
+     * @param Url $entity
+     * @param boolean $flush
+     * @return void
+     */
     public function remove(Url $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -39,28 +53,43 @@ class UrlRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Url[] Returns an array of Url objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Retourne si l'url est déjà présente dans la bdd
+     *
+     * @param string $url
+     * @return boolean
+     */
+    public function alreadyExists(string $url):bool
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.slug = :url')
+            ->setParameter('url', $url)
+            ->getQuery()
+            ->getOneOrNullResult() !== null;
+    }
 
-//    public function findOneBySomeField($value): ?Url
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * Vide toutes les enregistrements présents dans la bdd
+     *
+     * @return void
+     */
+    public function truncate() {
+        return $this->createQueryBuilder('u')->delete()->getQuery()->execute();
+    }
+
+    /**
+     * Retourne l'entitée URL recherchée par son slug
+     *
+     * @param string $value
+     * @return Url|null
+     */
+    public function findOneBySLug(string $slug): ?Url
+    {
+       return $this->createQueryBuilder('u')
+           ->andWhere('u.slug = :val')
+           ->setParameter('val', $slug)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+    }
 }
