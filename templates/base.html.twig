@@ -2,18 +2,89 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>La Crawl Attitude</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+        <style>
+        body {
+        }
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        .central-zone {
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+            color: white;
+            font-weight: bold;
+            border: 3px solid #f1f1f1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 80%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .bg {
+            margin: 0;
+            padding: 0;
+            background-image: url('imgs/background.jpeg');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            filter: blur(8px);
+            -webkit-filter: blur(8px);
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: whitesmoke;
+            color: gray;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bolder;
+        }
+
+        .icon-zone {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .icon {
+            margin: 10px;
+            /* width: 120px; */
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .icon img {
+            max-height:100px;
+        }
+        .icon a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="bg"></div>
+        <div class="central-zone">
+            <form action="{{ path('post_crawl') }}" method="post">
+                <input type="hidden" id="url" name="url" value="https://architecteo.com" required>
+                <button class="button" type="submit">LAUNCH CRAWL</button>
+            </form>
+            <div class="icon-zone">
+                {% for aCrawl in exportedCrawls %}
+                    <div class="icon">
+                        <a href="exports/{{ aCrawl.filename }}" target="_blank"><img src="imgs/icon.png" /><br />{{ aCrawl.filename }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </body>
 </html>
